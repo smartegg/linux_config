@@ -10,15 +10,46 @@
 *.lai
 *.la
 *.a
-
-#other DIY config
-.*.swp
-app
+# Executables
+*.exe
 *.out
-tags
-cscope*
+
+#DIY config
+.clang_complete
+app
 gen_makefile.py
 
 
 
+# http://www.gnu.org/software/autoconf
+autom4te.cache/
+compile
+configure
+depcomp
+install-sh
+missing
+Makefile.in
+*.log
+*.m4
+config.status
+stamp-h1
+.dep/
+config.h
+configure.scan
 
+
+.*.sw[a-z]
+*.un~
+Session.vim
+
+
+.*
+!.gitignore
+*~
+
+# Ignore tags created by etags and ctags
+TAGS
+!TAGS/
+tags
+!tags/
+cscope*
