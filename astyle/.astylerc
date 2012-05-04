@@ -1,0 +1,17 @@
+--style=java
+--indent=spaces=2
+--indent-classes
+--indent-switches
+--indent-preprocessor
+--min-conditional-indent=1
+--max-instatement-indent=80
+--indent-col1-comments
+--break-blocks=all
+--pad-oper
+--pad-header
+--unpad-paren
+--add-brackets
+--convert-tabs
+--align-pointer=type
+--suffix=none
+--lineend=linux

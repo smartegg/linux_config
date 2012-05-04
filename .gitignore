@@ -43,7 +43,6 @@ configure.scan
 Session.vim
 
 
-.*
 !.gitignore
 *~
 

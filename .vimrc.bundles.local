@@ -1,0 +1,6 @@
+Bundle 'a.vim'
+Bundle 'vim-scripts/OmniCppComplete'
+Bundle 'DoxygenToolkit.vim'
+Bundle 'sjl/gundo.vim'
+""Bundle 'drmingdrmer/xptemplate'
+Bundle 'SirVer/ultisnips'

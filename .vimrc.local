@@ -1,0 +1,167 @@
+set t_Co=256
+colorscheme desert
+set colorcolumn=80
+set nospell
+set tabstop=2
+set shiftwidth=2                " use indents of 4 spaces
+set softtabstop=2               " let backspace delete indent
+
+let g:UltiSnipsSnippetsDir= "/home/smartegg/.vim/myultisnips/"
+if !has('gui')
+    set term=$TERM          " Make arrow and other keys work
+endif
+set matchpairs+=<:>                " match, to be used with %
+set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
+let g:snips_author = 'smartegg <smartegg@gmail.com>'
+
+" Add highlighting for function definition in C++"
+function! EnhanceCppSyntax()
+  syn match cppFuncDef "::\~\?\zs\h\w*\ze([^)]*\()\s*\(const\)\?\)\?$"
+  hi def link cppFuncDef Special
+endfunction
+autocmd Syntax cpp call EnhanceCppSyntax()
+
+""" Search path for 'gf' command (e.g. open #include-d files)
+set path+=/usr/include/c++/**
+
+"""Tags
+set tags+=/usr/include/tags
+set tags+=./tags
+
+"""omnifunc  cpp"
+au BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
+let OmniCpp_NamespaceSearch = 1
+let OmniCpp_GlobalScopeSearch = 1
+let OmniCpp_ShowAccess = 1
+let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
+let OmniCpp_MayCompleteDot = 1 " autocomplete after .
+let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
+let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
+let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
+
+
+"""NERDTree 
+let g:NERDTreeDirArrows=0"
+
+
+func! MakeTagCScope()
+    exec ":wall"
+    exec "!ctags -R  --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q ."
+    exec "!cscope -Rbq"
+    cs add cscope.out
+endfunc
+
+"""Smart in-line manpages 
+fun! ReadMan()
+    " Assign current word under cursor to a script variable:
+    let s:man_word = expand('<cword>')
+    " Open a new window:
+    :exe ":wincmd n"
+    " Read in the manpage for man_word (col -b is for formatting):
+    :exe ":r!man  " . s:man_word . " | col -b"
+    " Goto first line...
+    :exe ":goto"
+    " and delete it:
+    :exe ":delete"
+    " finally set file type to 'man':
+    :exe ":set filetype=man"
+    " lines set to 20
+    :resize 20
+endfun
+
+
+if has("cscope")
+    set cscopequickfix=s-,c-,d-,i-,t-,e-
+    set csto=0
+    set cst
+    set nocsverb
+    " add any database in current directory
+    if filereadable("cscope.out")
+        cs add cscope.out
+    " else add database pointed to by environment
+    elseif $CSCOPE_DB != ""
+        cs add $CSCOPE_DB
+    endif
+    set csverb
+    map g<C-]> :cs find 3 <C-R>=expand("<cword>")<CR><CR>
+    map g<C-\> :cs find 0 <C-R>=expand("<cword>")<CR><CR>
+endif
+"""  plugin doxygen
+let g:load_doxygen_syntax=1
+let g:DoxygenToolkit_paramTag_pre="@param " 
+let g:DoxygenToolkit_returnTag="@returns   " 
+""let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------" 
+""let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------" 
+let g:DoxygenToolkit_authorName="smartegg" 
+let g:DoxygenToolkit_licenseTag="Copyright (C) 2012 smartegg  <lazysmartegg@gmail.com>"
+let g:DoxygenToolkit_briefTag_pre = "@brief " 
+""let g:DoxygenToolkit_briefTag_post = "<++>" 
+let g:DoxygenToolkit_briefTag_funcName = "yes" 
+let g:DoxygenToolkit_compactOneLineDoc = "yes"
+let g:DoxygenToolkit_briefTag_className= "yes"
+let g:DoxygenToolkit_briefTag_enumName = "yes"
+let g:DoxygenToolkit_briefTag_namespaceName="yes"
+let g:DoxygenToolkit_versionString = "1.0"
+
+"""astyle config
+function CodeFormat()
+    let lineNum = line(".")
+    if &filetype == 'c' || &filetype == 'cpp'
+        exec "%!astyle --options=$HOME/.vim/astyle/.astylerc"
+        echohl WarningMsg | echo "code formatting done" | echohl None
+    else
+        echohl WarningMsg | echo "unsupported file type: ".&filetype | echohl None
+    endif
+    exec lineNum
+endfunc
+
+""""""""""""""""""""""""""""""""""""""""""""
+" below just for convenient 
+""""""""""""""""""""""""""""""""""""""""""""" "
+" Press Space to turn off highlighting and clear any message already displayed.
+nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+" with X to close it."
+nnoremap <Leader>x :bd!<CR>
+"""A.vim
+map <Leader>a :A <CR>"
+"""Set working directory
+nnoremap <leader>. :lcd %:p:h<CR>"
+map <leader>k :call ReadMan()<CR>
+map <Leader>n :NERDTreeToggle<CR>:NERDTreeMirror<CR>
+
+
+
+nmap <F2> :DoxAuthor<cr> 
+nmap <Leader>2 :DoxAuthor<cr> 
+
+nmap <F3> :wall<CR>
+nmap <leader>3 :wall<CR>
+
+nmap <F4> :quitall<CR>
+nmap <leader>4 :quitall<CR>
+
+nmap <F5> :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+nmap <leader>5 :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+
+nnoremap <F10> :GundoToggle<CR>
+nnoremap <Leader>10 :GundoToggle<CR>
+
+nmap <F12> :call MakeTagCScope()<CR><CR>
+nmap <leader>12 :call MakeTagCScope()<CR><CR>
+
+nmap <Leader>r :make<CR><CR> :cw<CR>
+
+nmap <C-h> <C-W>h
+nmap <C-j> <C-W>j
+nmap <C-k> <C-W>k
+nmap <C-l> <C-W>l
+
+nmap <S-F> <Esc>:call CodeFormat()<CR>
+
+
+
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<c-j>"
+let g:UltiSnipsListSnippets = "<c-u>"
+
