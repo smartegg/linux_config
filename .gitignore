@@ -24,11 +24,6 @@ gen_makefile.py
 # http://www.gnu.org/software/autoconf
 autom4te.cache/
 compile
-configure
-depcomp
-install-sh
-missing
-Makefile.in
 *.log
 *.m4
 config.status
@@ -51,4 +46,4 @@ TAGS
 !TAGS/
 tags
 !tags/
-cscope*
+t cscope*

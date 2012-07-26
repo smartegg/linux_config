@@ -14,7 +14,7 @@ ${VISUAL:code}$0
 #endif
 endsnippet
 
-snippet inc "#include local header (inc)"
+snippet incc "#include local header (inc)"
 #include "${1:`!p snip.rv = snip.basename + '.h'`}"
 endsnippet
 
@@ -34,14 +34,13 @@ endsnippet
 snippet main "main() (main)"
 int main(int argc, char const *argv[])
 {
-	${0:/* code */}
+	${0}
 	return 0;
 }
 endsnippet
 
 snippet for "for int loop (fori)"
-for (${4:size_t} ${2:i} = 0; $2 < ${1:count}; ${3:++$2})
-{
+for (size_t i = 0; i < ${1:count}; ++i) {
 	${0:/* code */}
 }
 endsnippet
@@ -50,7 +49,7 @@ snippet enum "Enumeration"
 enum ${1:name} { $0 };
 endsnippet
 
-snippet once "Include header once only guard"
+snippet oncec "Include header once only guard"
 #ifndef ${1:`!p
 if not snip.c:
 	import random, string
@@ -82,9 +81,8 @@ fprintf(${1:stderr}, "${2:%s}\n"${2/([^%]|%%)*(%.)?.*/(?2:, :\);)/}$3${2/([^%]|%
 endsnippet
 
 snippet if "if .. (if)"
-if (${1:/* condition */})
-{
-	${0:/* code */}
+if ($1) {
+	$0
 }
 endsnippet
 
@@ -97,6 +95,13 @@ struct ${1:`!p snip.rv = (snip.basename or "name") + "_t"`}
 {
 	${0:/* data */}
 };
+endsnippet
+
+############ MY DIX Snippets ########
+snippet el "else{} short"
+else {
+  $0
+}
 endsnippet
 
 # vim:ft=snippets:

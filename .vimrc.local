@@ -6,7 +6,10 @@ set tabstop=2
 set shiftwidth=2                " use indents of 4 spaces
 set softtabstop=2               " let backspace delete indent
 
-let g:UltiSnipsSnippetsDir= "/home/smartegg/.vim/myultisnips/"
+
+let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux
+
+let g:UltiSnipsSnippetDirectories = ["myultisnips"]
 if !has('gui')
     set term=$TERM          " Make arrow and other keys work
 endif
@@ -22,23 +25,32 @@ endfunction
 autocmd Syntax cpp call EnhanceCppSyntax()
 
 """ Search path for 'gf' command (e.g. open #include-d files)
-set path+=/usr/include/c++/**
+""set path+=/usr/include/c++/**
 
 """Tags
-set tags+=/usr/include/tags
-set tags+=./tags
+""set tags+=/usr/include/tags
+""set tags+=./tags
 
-"""omnifunc  cpp"
-au BufNewFile,BufRead,BufEnter *.cpp,*.hpp set omnifunc=omni#cpp#complete#Main
-let OmniCpp_NamespaceSearch = 1
-let OmniCpp_GlobalScopeSearch = 1
-let OmniCpp_ShowAccess = 1
-let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
-let OmniCpp_MayCompleteDot = 1 " autocomplete after .
-let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
-let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
-let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
 
+
+"clang-config
+let g:clang_complete_copen=1
+let g:clang_periodic_quickfix=0
+let g:clang_use_library=1
+let g:clang_complete_auto=0
+let g:clang_hl_errors=1
+let g:clang_snippets=1
+let g:clang_snippets_engine= "ultisnips"
+let g:clang_conceal_snippets=1
+let g:clang_user_options = '-std=c++11'
+let g:clang_exec="clang"
+let g:clang_library_path='/usr/local/lib'
+""let g:clang_library_path='/home/smartegg/devel/clang3.0/lib'
+""let g:clang_auto_user_options="path, .clang_complete,gcc"  
+let g:clang_auto_select=1
+let g:clang_sort_algo="priority"
+let g:clang_complete_macros=1
+let g:clang_complete_patterns=1
 
 """NERDTree 
 let g:NERDTreeDirArrows=0"
@@ -69,7 +81,7 @@ fun! ReadMan()
     :resize 20
 endfun
 
-
+"""  cscope
 if has("cscope")
     set cscopequickfix=s-,c-,d-,i-,t-,e-
     set csto=0
@@ -90,14 +102,11 @@ endif
 let g:load_doxygen_syntax=1
 let g:DoxygenToolkit_paramTag_pre="@param " 
 let g:DoxygenToolkit_returnTag="@returns   " 
-""let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------" 
-""let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------" 
 let g:DoxygenToolkit_authorName="smartegg" 
 let g:DoxygenToolkit_licenseTag="Copyright (C) 2012 smartegg  <lazysmartegg@gmail.com>"
 let g:DoxygenToolkit_briefTag_pre = "@brief " 
-""let g:DoxygenToolkit_briefTag_post = "<++>" 
 let g:DoxygenToolkit_briefTag_funcName = "yes" 
-let g:DoxygenToolkit_compactOneLineDoc = "yes"
+let g:DoxygenToolkit_compactOneLineDoc = "no"
 let g:DoxygenToolkit_briefTag_className= "yes"
 let g:DoxygenToolkit_briefTag_enumName = "yes"
 let g:DoxygenToolkit_briefTag_namespaceName="yes"
@@ -131,7 +140,6 @@ map <Leader>n :NERDTreeToggle<CR>:NERDTreeMirror<CR>
 
 
 
-nmap <F2> :DoxAuthor<cr> 
 nmap <Leader>2 :DoxAuthor<cr> 
 
 nmap <F3> :wall<CR>
@@ -142,6 +150,7 @@ nmap <leader>4 :quitall<CR>
 
 nmap <F5> :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 nmap <leader>5 :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+
 
 nnoremap <F10> :GundoToggle<CR>
 nnoremap <Leader>10 :GundoToggle<CR>
@@ -165,3 +174,51 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<c-j>"
 let g:UltiSnipsListSnippets = "<c-u>"
 
+nnoremap <silent> <leader>t :TagbarToggle<CR>
+
+nmap <leader>c :CtrlP<CR>
+
+
+
+set confirm
+
+""minibufexpl
+let g:miniBufExplorerMoreThanOne=1
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplMapCTabSwitchBufs = 1
+let g:miniBufExplModSelTarget = 1
+
+""" cscope
+if has("cscope")
+    set cscopequickfix=s-,c-,d-,i-,t-,e-
+    set csto=0
+    set cst
+    set nocsverb
+    " add any database in current directory
+    if filereadable("     cscope.out")
+        cs add cscope.out
+    ""else add database pointed to by         environment
+    elseif $CSCOPE_DB != ""
+        cs add $CSCOPE_DB
+    endif
+    set              csverb
+    map g<C-]> :cs find 3 <C-R>=expand("<cword>")<CR><CR>
+    map g<C-\> :cs find 0 <C-R>=expand("<cword>")<CR><CR>
+endif
+
+
+
+let g:syntastic_enable_signs=1
+let g:syntastic_auto_loc_list=1
+let g:syntastic_mode_map = { 'mode': 'active',
+                           \ 'active_filetypes': ['ruby', 'php'],
+                           \ 'passive_filetypes': ['puppet', 'c', 'cpp', 'python'] }
+
+autocmd FileType ruby,eruby,yaml set tw=80 ai sw=2 sts=2 et
+
+
+au BufEnter *.hs compiler ghc
+
+let g:ghc = "/usr/local/bin/ghc"
+let g:haddock_browser = "open"

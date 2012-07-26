@@ -5,6 +5,7 @@
     excludesfile = /home/smartegg/.gitignore_global
     pager = less -R
 	editor = vim
+    quotepath = false
 [diff]
 	tool = vimdiff
 [difftool]
@@ -23,7 +24,7 @@
     lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
     ls = ls-files
     unstage = reset HEAD --
-    glog = log --pretty=oneline --graph
+    glog = log --oneline --graph --decorate
 [color]
     diff = auto
     status = auto
@@ -33,3 +34,5 @@
     default = matching
 [format]
     pretty = oneline
+[github]
+    user = smartegg

@@ -8,22 +8,22 @@ ${1:v}${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}begin(), $1${1/^.*?(-)?(>)?$/(?2::(?1:>:
 endsnippet
 
 snippet cl "class .. (class)"
-class ${1:`!p snip.rv = snip.basename or "name"`}
-{
-public:
-	${1/(\w+).*/$1/} (${2:arguments});
-	virtual ~${1/(\w+).*/$1/} ();
+class ${1:`!p snip.rv = snip.basename or "name"`} {
+  public:
+    ${1/(\w+).*/$1/} (${2:arguments});
+    virtual ~${1/(\w+).*/$1/} ();
 
-private:
-	${0:/* data */}
+  private:
+    ${1/(\w+).*/$1/}(const $1 &);
+    const $1& operator=(const $1 &);
+	  ${0:/* data */}
 };
 endsnippet
 
-snippet ns "namespace .. (namespace)"
-namespace${1/.+/ /m}${1:`!p snip.rv = snip.basename or "name"`}
-{
+snippet na "namespace .. (namespace)"
+namespace $1 {
 	$0
-}${1/.+/ \/* /m}$1${1/.+/ *\/ /m}
+} //namespace $1
 endsnippet
 
 snippet readfile "read file (readF)"
@@ -48,5 +48,40 @@ endsnippet
 snippet tp "template <typename ..> (template)"
 template <typename ${1:_InputIter}>
 endsnippet
+
+
+
+################# MY DIY   ##########
+snippet once "Include header once c++ only guard"
+#ifndef ${1:`!p
+if not snip.c:
+	import random, string
+	name = re.sub(r'[^A-Za-z0-9]+','_', snip.fn).upper()
+	rand = ''.join(random.sample(string.ascii_letters+string.digits, 8))
+	snip.rv = ('%s_%s' % (name,rand)).upper()
+else:
+    snip.rv = snip.c`}
+#define $1
+
+${0}
+
+#endif // $1
+
+endsnippet
+
+
+snippet inc "#include local header (inc)"
+#include "${1:`!p snip.rv = snip.basename + '.hpp'`}"
+endsnippet
+
+snippet try "try" !b
+try {
+  ${0}
+} 
+catch(std::exception& e) {
+  std::cerr << e.what() << std::endl;
+}
+endsnippet
+
 
 # vim:ft=snippets:

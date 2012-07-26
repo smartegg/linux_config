@@ -1,6 +1,35 @@
 Bundle 'a.vim'
-Bundle 'vim-scripts/OmniCppComplete'
+""Bundle 'vim-scripts/OmniCppComplete'
 Bundle 'DoxygenToolkit.vim'
 Bundle 'sjl/gundo.vim'
 ""Bundle 'drmingdrmer/xptemplate'
 Bundle 'SirVer/ultisnips'
+
+Bundle 'Rip-Rip/clang_complete'
+""Bundle 'Shougo/neocomplcache-clang_complete'
+
+""Bundle 'Shougo/neocomplcache-clang'
+""Bundle 'LustyExplorer'
+""Bundle 'LustyJuggler'
+""Bundle 'vim-scripts/mru.vim'
+Bundle 'fholgado/minibufexpl.vim'
+""Bundle 'Shougo/vimproc'
+""Bundle 'Shougo/vimshell'
+""Bundle 'Shougo/unite.vim'
+
+
+""runtime macros/matchit.vim
+""Bundle 'tpope/vim-endwise'
+Bundle 'ecomba/vim-ruby-refactoring'
+Bundle 'nelstrom/vim-textobj-rubyblock'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'scrooloose/syntastic'
+Bundle 'gregsexton/gitv'
+
+Bundle 'Twinside/vim-syntax-haskell-cabal'
+Bundle 'lukerandall/haskellmode-vim'
+
+
+Bundle 'kana/vim-textobj-user'
+Bundle 'michaeljsmith/vim-indent-object'
+let g:indentobject_meaningful_indentation = ["haml", "sass", "python", "yaml", "markdown"]
