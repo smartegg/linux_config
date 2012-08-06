@@ -32,4 +32,5 @@ Bundle 'lukerandall/haskellmode-vim'
 
 Bundle 'kana/vim-textobj-user'
 Bundle 'michaeljsmith/vim-indent-object'
+""Bundle 'jiangmiao/auto-pairs'
 let g:indentobject_meaningful_indentation = ["haml", "sass", "python", "yaml", "markdown"]
